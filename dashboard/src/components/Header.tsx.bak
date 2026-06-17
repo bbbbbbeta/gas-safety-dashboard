@@ -1,0 +1,69 @@
+﻿import React, { useState, useEffect } from 'react';
+
+const Header: React.FC = () => {
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('zh-CN', { 
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return ${year}//;
+  };
+
+  return (
+    <div className="info-bar flex items-center justify-between px-8 py-4 mb-6">
+      {/* 左侧:Logo和公司信息 */}
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          {/* 北京燃气Logo */}
+          <div className="relative">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="24" fill="#FF4500"/>
+              <path d="M24 12c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="white"/>
+              <path d="M20 24c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4z" fill="white"/>
+            </svg>
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-gray-800 tracking-wide">北京燃气</div>
+            <div className="text-sm text-gray-600 font-medium tracking-wider">BEIJING GAS</div>
+          </div>
+        </div>
+      </div>
+      
+      {/* 右侧:时间、日期、温度 */}
+      <div className="flex items-center gap-8">
+        <div className="text-5xl font-bold text-blue-500 font-mono tracking-wider">
+          {formatTime(currentTime)}
+        </div>
+        <div className="h-16 w-px bg-gradient-to-b from-blue-300 to-blue-100"></div>
+        <div className="text-2xl text-blue-500 font-medium">
+          {formatDate(currentTime)}
+        </div>
+        <div className="flex items-center gap-2 ml-4">
+          <div className="text-5xl font-bold text-blue-500">
+            28.6
+          </div>
+          <div className="text-2xl text-blue-500">°C</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Header;
